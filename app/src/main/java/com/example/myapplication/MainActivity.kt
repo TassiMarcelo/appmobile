@@ -1,9 +1,12 @@
 package com.example.myapplication
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -21,18 +24,43 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        val loginButton = findViewById<Button>(R.id.button)  // Asegúrate de que el ID coincida con tu XML
-        loginButton.setOnClickListener {
-            val intent = Intent(this, MainActivity2::class.java)
-            startActivity(intent)
-        }
+
 
         val registerText = findViewById<TextView>(R.id.checkedTextView)
         registerText.setOnClickListener {
             val intent = Intent(this, MainActivity3::class.java)
             startActivity(intent)
         }
+        // Referencias a las vistas
+        val etUsername = findViewById<EditText>(R.id.editTextText)  // Campo de nombre
+        val etPassword = findViewById<EditText>(R.id.editTextTextPassword)  // Campo de contraseña
+        val btnLogin = findViewById<Button>(R.id.button)  // Botón de login
 
+        btnLogin.setOnClickListener {
+            val inputName = etUsername.text.toString()
+            val inputPassword = etPassword.text.toString()
+
+            // Obtener datos guardados
+            val prefs = getSharedPreferences("user_data", MODE_PRIVATE)
+            val savedName = prefs.getString("name", null)
+            val savedPassword = prefs.getString("password", null)
+
+            // Validación combinada (sin especificar qué está mal)
+            if (savedName == inputName && savedPassword == inputPassword) {
+                Toast.makeText(this, "¡Bienvenido, $inputName!", Toast.LENGTH_SHORT).show()
+                // Redirigir a pantalla principal aquí
+
+                // Redirigir a MainActivity2 después del mensaje
+                val intent = Intent(this, MainActivity2::class.java)
+                startActivity(intent)
+                finish() // Opcional: cierra la actividad actual para que no se pueda volver atrás con el botón "back"
+
+            } else {
+                Toast.makeText(this, "Nombre o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                // Limpiar campos opcional:
+                etPassword.text.clear()
+            }
+        }
 
     }
 }
