@@ -48,13 +48,12 @@ class MainActivity : AppCompatActivity() {
             // Validación combinada (sin especificar qué está mal)
             if (savedName == inputName && savedPassword == inputPassword) {
                 Toast.makeText(this, "¡Bienvenido, $inputName!", Toast.LENGTH_SHORT).show()
-                // Redirigir a pantalla principal aquí
 
-                // Redirigir a MainActivity2 después del mensaje
-                val intent = Intent(this, MainActivity2::class.java)
+                val intent = Intent(this, MainActivity2::class.java).apply {
+                    putExtra("USERNAME", inputName) // Envía el nombre a MainActivity2
+                }
                 startActivity(intent)
-                finish() // Opcional: cierra la actividad actual para que no se pueda volver atrás con el botón "back"
-
+                finish()
             } else {
                 Toast.makeText(this, "Nombre o contraseña incorrectos", Toast.LENGTH_SHORT).show()
                 // Limpiar campos opcional:

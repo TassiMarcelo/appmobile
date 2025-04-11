@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,5 +17,12 @@ class MainActivity2 : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // 1. Obtener el nombre enviado desde MainActivity
+        val username = intent.getStringExtra("USERNAME") ?: "Usuario"
+
+        // 2. Mostrar el mensaje de bienvenida
+        val welcomeText = findViewById<TextView>(R.id.textView2) // Asegúrate de crear este TextView en tu XML
+        welcomeText.text = "Bienvenido a la aplicación, $username!"
     }
-}
+    }
